@@ -1,13 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import './App.css';
 import List from './components/List'
+import Form from './components/Form'
+import {Sub} from './interface/types'
 
-interface Sub {
-  nick: string,
-  avatar: string,
-  subMounths: number,
-  description?: string
-}
 
 interface AppState {
   subs: Array<Sub>
@@ -38,15 +34,20 @@ const App = () => {
     setSubs(INITIAL_STATE)
   }, [])
 
+  const divRef = useRef<HTMLDivElement>(null);
+
+  const handleNewSub = (newSubs: Sub): void => {
+    setSubs(subs => [...subs, newSubs])
+  } 
+
   return (
     <>
-      <div className="App">
+      <div className="App" ref={divRef}>
         <h1>Dev Subs</h1>
       </div>
       <List subs={subs} />
-
+      <Form onNewSub={handleNewSub}/>
     </>
-
   )
 }
 
